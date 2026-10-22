@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S6 · Selectividad del receptor frente a una emisión cercana · Comunicaciones II · Grupo 6</title>
+<meta name="description" content="Blog técnico del Proyecto Integrador de Comunicaciones II (27145), UIS 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#A6192E;--red-dark:#7E1222;--bg:#F3F3F3;--card:#fff;--ink:#2B2B2B;--muted:#666;--line:#DDD;
+--tbd-bg:#FFF4DC;--tbd-line:#C77700;--tbd-ink:#6B4300}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "Open Sans",system-ui,sans-serif}
+a{color:var(--red)}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.25rem}
+
+/* barra superior */
+header.top{background:var(--red);color:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+header.top .wrap{display:flex;align-items:center;gap:1.5rem;min-height:56px}
+header.top .brand{font-weight:700;white-space:nowrap}
+header.top nav{display:flex;gap:.25rem;overflow-x:auto;scrollbar-width:thin}
+header.top nav a{color:#fff;text-decoration:none;padding:.9rem .7rem;font-size:.88rem;white-space:nowrap;border-bottom:3px solid transparent}
+header.top nav a:hover{border-bottom-color:#fff;background:var(--red-dark)}
+
+/* portada */
+.hero{background:linear-gradient(var(--red-dark),var(--red));color:#fff;padding:2.5rem 0 0}
+.hero small{opacity:.85}
+.hero h1{font-size:clamp(1.8rem,4.5vw,2.6rem);line-height:1.2;margin:.4rem 0 1rem;max-width:820px}
+.hero p{max-width:760px;margin:.4rem 0}
+.hero a{color:#fff}
+.hero .tbd{background:rgba(255,255,255,.18);border-color:#fff;color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.35);margin-top:2rem;border-top:1px solid rgba(255,255,255,.35)}
+.stats div{background:var(--red-dark);padding:1rem;text-align:center}
+.stats b{display:block;font-size:1.6rem}
+.stats span{font-size:.8rem;opacity:.9}
+.fig-hero{margin:1.5rem 0 0}
+
+/* tarjetas de índice */
+.index{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin:2rem 0}
+.index a{display:block;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--red);padding:1rem;text-decoration:none;color:var(--ink);border-radius:2px}
+.index a:hover{box-shadow:0 3px 8px rgba(0,0,0,.15)}
+.index strong{display:block;color:var(--red);margin-bottom:.25rem}
+.index span{font-size:.85rem;color:var(--muted)}
+
+/* secciones tipo artículo */
+section.panel{background:var(--card);border:1px solid var(--line);padding:1.75rem clamp(1rem,3vw,2.25rem);margin:0 0 1.5rem}
+section.panel h2{margin:0 0 1rem;font-size:1.45rem;color:var(--red);border-bottom:2px solid var(--red);padding-bottom:.4rem}
+h3{font-size:1.05rem;margin:1.5rem 0 .4rem}
+.tbd{display:inline-block;background:var(--tbd-bg);border:1px dashed var(--tbd-line);color:var(--tbd-ink);padding:.05rem .45rem;border-radius:3px;font-size:.9em}
+.fig{margin:1.25rem 0}
+.fig .ph{background:var(--tbd-bg);border:2px dashed var(--tbd-line);color:var(--tbd-ink);border-radius:3px;min-height:170px;display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;font-size:.92rem}
+.fig img{max-width:100%;height:auto;display:block;border:1px solid var(--line)}
+.fig figcaption{font-size:.88rem;color:var(--muted);margin-top:.4rem}
+.formula{font-family:ui-monospace,Consolas,monospace;background:var(--bg);border-left:4px solid var(--red);padding:.75rem 1rem;margin:1rem 0;font-size:.92rem;overflow-x:auto}
+.tablewrap{overflow-x:auto;margin:1rem 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid var(--line);padding:.5rem .65rem;text-align:left;vertical-align:top}
+th{background:var(--red);color:#fff}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
+.gallery .fig{margin:0}.gallery .ph{min-height:110px;font-size:.85rem}
+.video{aspect-ratio:16/9;background:var(--tbd-bg);border:2px dashed var(--tbd-line);color:var(--tbd-ink);display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;border-radius:3px}
+.video iframe{width:100%;height:100%;border:0}
+.btn{display:inline-block;background:var(--red);color:#fff;padding:.6rem 1.2rem;border-radius:3px;text-decoration:none;font-weight:600}
+.btn:hover{background:var(--red-dark)}
+.decl{border:1px solid var(--line);background:var(--bg);padding:1rem 1.25rem}
+footer{background:#3A3A3A;color:#ddd;padding:1.75rem 0;margin-top:2rem;font-size:.88rem}
+footer a{color:#fff}
+@media (max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}header.top .brand{display:none}}
+
+[hidden]{display:none!important}
+.dark{background:#1E2528;color:#fff;padding:2.75rem 0 3rem;margin:2rem 0}
+.dhead{display:flex;align-items:center;justify-content:center;gap:1.1rem;margin-bottom:2rem}
+.dhead h2{margin:0;font-size:clamp(1.4rem,3vw,1.9rem)}
+.ico{width:64px;height:64px;border:2px solid #C8283C;border-radius:50%;display:grid;place-items:center;flex:none}
+.dgrid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:2.5rem}
+.dtitle{font-size:1.7rem;color:#566268;margin:0 0 .6rem}
+.dark .two{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem 1.5rem}
+.dark label.l{display:block;font-size:.95rem;border-bottom:1px solid #4A565B;padding-bottom:.35rem;margin-bottom:.55rem}
+.dark input[type=number],.dark select{width:100%;padding:.6rem .75rem;border:0;border-radius:4px;background:#fff;color:#222;font:inherit}
+.dark input[type=range]{width:100%;accent-color:#E53946}
+.dark :focus-visible{outline:3px solid #fff}
+.dark .muted{color:#8FA1A9}
+.dark small{color:#8FA1A9}
+.big{font-size:1.5rem;line-height:1.35;margin:0 0 .15rem}
+.big b{font-size:1.75rem}
+.big span{color:#8FA1A9;font-size:1.05rem}
+.dbtn{display:block;width:100%;max-width:290px;border:0;border-radius:3px;padding:.7rem 1rem;font:600 1rem "Open Sans",sans-serif;color:#fff;cursor:pointer;margin:.8rem 0 0}
+.dbtn.green{background:#2A9D0F}.dbtn.green:hover{background:#238a0c}
+.dbtn.grey{background:#4D5A60}.dbtn.grey:hover{background:#5d6b72}
+.dbtn.on{background:#2A9D0F}
+.dlinks{margin-top:1.4rem;padding-top:1rem;border-top:1px solid #4A565B;display:grid;gap:.25rem;font-size:.92rem}
+.dlinks a{color:#8FA1A9;text-decoration:none}.dlinks a:hover{color:#fff;text-decoration:underline}
+.msg{margin-top:1rem;font-size:.92rem;color:#C9D4D9;min-height:1.5em}
+.presets{display:flex;flex-wrap:wrap;gap:.5rem;margin:.25rem 0 1.25rem}
+.presets .dbtn{width:auto;margin:0;padding:.5rem 1rem}
+.cv{width:100%;height:auto;display:block;border-radius:4px;background:#161C1F}
+.lab{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:1.5rem;margin-top:1.5rem;align-items:start}
+.sliders{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.chk{display:block;padding:.4rem 0;border-bottom:1px solid #2F3B40;font-size:.95rem;cursor:pointer}
+.chk input{margin-right:.5rem;accent-color:#2A9D0F;width:1.05rem;height:1.05rem;vertical-align:-2px}
+@media (max-width:760px){.dgrid,.lab,.dark .two,.sliders{grid-template-columns:1fr}}
+.defs{margin:0}.defs dt{font-weight:700;color:var(--red);margin-top:1rem}.defs dd{margin:.15rem 0 0}
+.schema{width:100%;height:auto;display:block;background:#fff;border:1px solid var(--line)}
+.schema text{font:13px "Open Sans",sans-serif;fill:#2B2B2B}
+
+/* portada minimalista */
+.hero{padding:3.25rem 0 0;background:linear-gradient(160deg,var(--red-dark),var(--red))}
+.hero .kicker{margin:0 0 1.1rem;font-size:.9rem;opacity:.8}
+.hero h1{font-size:clamp(2rem,4.6vw,3.1rem);font-weight:600;line-height:1.12;letter-spacing:-.01em;max-width:17em;margin:0 0 .6rem}
+.hero .sub{font-size:1.25rem;font-weight:400;opacity:.9;margin:0 0 1.5rem;max-width:none}
+.hero .question{font-size:1.05rem;font-style:italic;opacity:.85;max-width:38em;margin:0 0 2rem;padding-left:1rem;border-left:2px solid rgba(255,255,255,.55)}
+.hero .meta{display:flex;flex-wrap:wrap;gap:1.25rem 3rem}
+.hero .k{display:block;font-size:.82rem;opacity:.7;margin-bottom:.15rem}
+.hero .v{display:block;font-weight:600}
+.hero .team{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 2.5rem;max-width:760px}
+.hero .team li{padding:.6rem 0;border-top:1px solid rgba(255,255,255,.28);display:flex;flex-direction:column}
+.hero .team small{opacity:.7;font-size:.85rem}
+.hero .repo{margin:1.5rem 0 0;font-size:.92rem}
+.hero .repo a{color:#fff;opacity:.9}
+.hero .fig-hero{margin:2rem 0 0}
+.ph-hero{min-height:200px;display:grid;place-items:center;text-align:center;padding:1rem;background:rgba(255,255,255,.07);border-radius:4px;font-size:.9rem;opacity:.85}
+.hero .stats{background:none;gap:0;margin-top:2.25rem;border-top:1px solid rgba(255,255,255,.3)}
+.hero .stats div{background:none;text-align:left;padding:1.1rem 1rem 1.3rem 0}
+.hero .stats div+div{padding-left:1.25rem;border-left:1px solid rgba(255,255,255,.22)}
+.hero .stats b{font-size:1.5rem;font-weight:600}
+@media (max-width:700px){.hero .team{grid-template-columns:1fr}.hero .stats div+div{border-left:0;padding-left:0}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <span class="brand">Comunicaciones II · Grupo 6</span>
+    <nav aria-label="Secciones del blog">
+      <a href="#inicio">Inicio</a>
+      <a href="#escenario">Escenario</a>
+      <a href="#diseno">Diseño técnico</a>
+      <a href="#calculadora">Calculadora</a>
+      <a href="#gnuradio">GNU Radio</a>
+      <a href="#laboratorio">Laboratorio</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#multimedia">Multimedia</a>
+      <a href="#bitacora">Bitácora</a>
+      <a href="#reflexion">Reflexión</a>
+      <a href="#verificacion">Autoevaluación</a>
+      <a href="#ia">Uso de IA</a>
+      <a href="#referencias">Referencias</a>
+      <a href="#interaccion">Interacción</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ 1. INICIO ============ -->
+<div class="hero" id="inicio">
+  <div class="wrap">
+    <p class="kicker">Comunicaciones II · 27145 · Proyecto Integrador 2026</p>
+    <h1>Selectividad del receptor frente a una emisión cercana</h1>
+    <p class="sub">Banda de guarda y lectura de la PSD en GNU Radio</p>
+    <p class="question">¿A qué distancia del borde de la banda útil una emisión estrecha deja de ser tolerable, y cuánto ayuda un filtro de canal?</p>
+
+    <div class="meta">
+      <div><span class="k">Grupo</span><span class="v">6</span></div>
+      <div><span class="k">Escenario</span><span class="v">S6 · Selectividad del receptor frente a una emisión cercana</span></div>
+    </div>
+
+    <p class="k" style="margin:1.75rem 0 .5rem">Integrantes</p>
+    <ul class="team">
+      <li><span>Jordi Alberto Delgado Abril</span><small>2230395</small></li>
+      <li><span>María José Mosquera Gutiérrez</span><small>2231775</small></li>
+      <li><span>Daniel Santiago Rodríguez Arévalo</span><small>2202325</small></li>
+      <li><span>Valentina Afanador Afanador</span><small>2230385</small></li>
+    </ul>
+    <p class="repo"><a href="#">Repositorio en GitHub</a></p>
+
+    <!-- Imagen destacada: reemplazar el div .ph-hero por <img src="figures/escenario/imagen_destacada.png" alt="..."> -->
+    <figure class="fig-hero">
+      <div class="ph-hero">Imagen destacada del escenario, pendiente. Guardar en figures/escenario/</div>
+    </figure>
+
+    <div class="stats" aria-label="Parámetros principales">
+      <div><b>—</b><span>Modulación</span></div>
+      <div><b>—</b><span>Rs (símbolos/s)</span></div>
+      <div><b>—</b><span>Rb (bits/s)</span></div>
+      <div><b>—</b><span>fs (muestras/s)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- Tarjetas de índice -->
+<div class="index" aria-label="Índice del proyecto">
+  <a href="#escenario"><strong>Escenario y problema</strong><span>Contexto, fenómeno físico y dibujo contextual</span></a>
+  <a href="#diseno"><strong>Diseño técnico</strong><span>Modulación, parámetros y diagrama de bloques</span></a>
+  <a href="#gnuradio"><strong>GNU Radio</strong><span>GRC base, modificaciones y bloques</span></a>
+  <a href="#resultados"><strong>Experimentos y resultados</strong><span>Pruebas A–D, PSD y constelaciones</span></a>
+  <a href="#multimedia"><strong>Multimedia</strong><span>Galería y video de socialización</span></a>
+  <a href="#bitacora"><strong>Bitácora y reflexión</strong><span>Decisiones, dificultades y aprendizaje</span></a>
+  <a href="#calculadora"><strong>Calculadora interactiva</strong><span>k, Rb, fs y ancho de banda en vivo</span></a>
+  <a href="#laboratorio"><strong>Laboratorio de perturbaciones</strong><span>Acerque el interferente y active el filtro de canal</span></a>
+  <a href="#verificacion"><strong>Autoevaluación</strong><span>Preguntas previas y lista de entrega</span></a>
+</div>
+
+<!-- ============ 2. ESCENARIO ============ -->
+<section class="panel" id="escenario">
+  <h2>Escenario y problema</h2>
+  <h3>Contexto profesional</h3>
+  <p>Un receptor de datos debe recuperar la señal de su canal asignado mientras otra emisión aparece en una frecuencia cercana. Esta situación es habitual en bandas con varios canales contiguos, en instalaciones con muchos equipos inalámbricos y en el diseño de estaciones base y terminales, donde los estándares fijan un nivel mínimo de rechazo hacia los canales vecinos [1], [2]. A medida que la fuente no deseada se acerca al borde de la banda útil, la selectividad del receptor deja de ser un detalle y pasa a decidir si la comunicación se sostiene.</p>
+  <p><span class="tbd">ADAPTAR: añadir el caso concreto del equipo (qué se transmite, quién es el receptor y qué emisión cercana lo perturba) y mencionar que en la simulación la perturbación es una fuente estrecha desplazada en frecuencia, no un segundo transmisor digital completo.</span></p>
+  <h3>Fenómeno físico que degrada la comunicación</h3>
+  <p>La selectividad de canal adyacente (ACS) describe la capacidad del receptor de recibir la señal de su canal asignado en presencia de otra señal separada por cierto desplazamiento de frecuencia [1]. Se expresa como la razón entre la atenuación del filtro del receptor en el canal asignado y su atenuación en la frecuencia del interferente [1], [2]. Por eso el desempeño del receptor depende sobre todo de su filtro de canal: de su banda de paso, de la banda de transición y del nivel de rechazo en la banda de corte [2]. La banda de guarda es la separación entre asignaciones de frecuencia: cuanto más angosta es, más abruptos deben ser los flancos del filtro y mayor su orden [3].</p>
+  <h3>Conceptos clave para leer el escenario</h3>
+  <dl class="defs">
+   <dt>Banda útil</dt><dd>Intervalo de frecuencias que ocupa la señal deseada; en este proyecto se estima con el modelo de ancho de banda de la modulación elegida.</dd>
+   <dt>Banda de guarda</dt><dd>Separación en frecuencia entre el borde de la banda útil y la emisión vecina. En la simulación equivale a |f_int| − BW/2 cuando el interferente queda fuera de la banda.</dd>
+   <dt>Selectividad</dt><dd>Capacidad del receptor de rechazar lo que no pertenece a su canal; se cuantifica con la ACS [1], [2].</dd>
+   <dt>Filtro de canal</dt><dd>Filtro del receptor que deja pasar la banda útil y atenúa lo demás. En GNU Radio se parametriza con la frecuencia de corte y el ancho de transición [4], [5].</dd>
+   <dt>Lectura de la PSD</dt><dd>La señal deseada aparece como una banda alrededor de la frecuencia central, el ruido como un piso y la fuente estrecha como un pico. La posición del pico frente al borde de la banda indica cuánta guarda queda, y su altura frente a la señal indica la relación señal/interferencia.</dd>
+  </dl>
+  <h3>Dibujo contextual</h3>
+  <p>Debe mostrar el espacio físico, mobiliario y objetos, Tx y Rx identificados, antenas visibles, trayectorias (directa, reflejada o interferente) y etiquetas técnicas (Tx, Rx, f_int, Δf, camino directo, eco, obstáculo) con una leyenda breve.</p>
+  <figure class="fig">
+    <div class="ph">PENDIENTE · Figura 1. Escenario físico: espacio (laboratorio u oficina técnica) con mobiliario y equipos; Tx de la señal deseada y Rx con antenas visibles; fuente estrecha cercana en frecuencia (f_int) con su propia antena; trayectoria deseada y trayectoria interferente; etiquetas Tx, Rx, f_int, Δf, banda útil; leyenda.<br>Archivo sugerido: figures/escenario/fig1_escenario.png</div>
+    <!-- <img src="figures/escenario/fig1_escenario.png" alt="Descripción de la escena con Tx, Rx y trayectorias"> -->
+    <figcaption>Figura 1. <span class="tbd">Título</span>. Si se usó IA para generarla, declararlo en «Uso de IA y herramientas».</figcaption>
+  </figure>
+</section>
+
+<!-- ============ 3. DISEÑO TÉCNICO ============ -->
+<section class="panel" id="diseno">
+  <h2>Diseño técnico</h2>
+  <h3>Decisión de modulación</h3>
+  <p><strong>Modulación seleccionada:</strong> <span class="tbd">BPSK / QPSK / 16QAM / BFSK…</span><br>
+  <strong>Justificación:</strong> <span class="tbd">razón técnica ligada al escenario</span><br>
+  <strong>Alternativa considerada y descartada:</strong> <span class="tbd">cuál y por qué</span></p>
+  <h3>Relaciones fundamentales</h3>
+  <div class="formula">k = log₂(M)<br>Rb = Rs · k<br>fs = Rs · SPS<br>BW ≈ (1 + β) · Rs   (con RRC; los GRC base usan conformación rectangular)<br>h = 2Δf / Rs   (solo BFSK)<br>guarda = |f_int| − BW/2   (interferente fuera de la banda útil)<br>ACS (dB) = atenuación del filtro en f_int − atenuación en la banda útil</div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Parámetro</th><th>Valor</th><th>Cálculo / justificación</th></tr></thead>
+    <tbody>
+      <tr><td>Modulación (M, k)</td><td class="tbd">—</td><td class="tbd">k = log₂(M)</td></tr>
+      <tr><td>Rs (símbolos/s)</td><td class="tbd">—</td><td class="tbd">—</td></tr>
+      <tr><td>Rb (bits/s)</td><td class="tbd">—</td><td class="tbd">Rb = Rs · k</td></tr>
+      <tr><td>SPS</td><td class="tbd">—</td><td class="tbd">—</td></tr>
+      <tr><td>fs (muestras/s)</td><td class="tbd">—</td><td class="tbd">fs = Rs · SPS (igual al GRC)</td></tr>
+      <tr><td>Ancho de banda</td><td class="tbd">—</td><td class="tbd">Modelo utilizado</td></tr>
+      <tr><td>Perturbación</td><td class="tbd">Fuente estrecha (Signal Source complejo) con A_int constante</td><td class="tbd">Variable que se modifica: f_int (distancia al borde de la banda útil)</td></tr>
+      <tr><td>Banda de guarda</td><td class="tbd">—</td><td class="tbd">|f_int| − BW/2 en cada prueba</td></tr>
+    </tbody></table></div>
+  <h3>Hipótesis previa</h3>
+  <p><span class="tbd">COMPLETAR: qué se espera ver en la PSD (pico en f_int, piso de ruido) y en la constelación a medida que f_int se acerca al borde de la banda útil, y a qué distancia se espera que el sistema falle.</span></p>
+  <figure class="fig">
+    <svg class="schema" viewBox="0 0 700 250" role="img" aria-label="Esquema de bandas: banda útil, bandas de guarda, filtro de canal e interferente">
+      <line x1="30" y1="190" x2="680" y2="190" stroke="#666" stroke-width="1.5"/>
+      <rect x="260" y="70" width="180" height="120" fill="#A6192E" fill-opacity=".18"/>
+      <rect x="205" y="70" width="55" height="120" fill="#999" fill-opacity=".18"/>
+      <rect x="440" y="70" width="55" height="120" fill="#999" fill-opacity=".18"/>
+      <path d="M205 188 Q260 188 280 150 L420 150 Q440 188 495 188" fill="none" stroke="#A6192E" stroke-width="2.5"/>
+      <path d="M215 100 L240 100 Q260 100 275 70 L425 70 Q440 100 460 100 L485 100" fill="none" stroke="#2B2B2B" stroke-width="1.8" stroke-dasharray="6 4" transform="translate(0,8)"/>
+      <path d="M575 190 L580 90 L585 190" fill="none" stroke="#C77700" stroke-width="3"/>
+      <line x1="350" y1="205" x2="580" y2="205" stroke="#2B2B2B"/><line x1="350" y1="199" x2="350" y2="211" stroke="#2B2B2B"/><line x1="580" y1="199" x2="580" y2="211" stroke="#2B2B2B"/>
+      <text x="440" y="224" text-anchor="middle">Δf</text>
+      <text x="350" y="60" text-anchor="middle">banda útil (BW)</text>
+      <text x="232" y="60" text-anchor="middle">guarda</text><text x="468" y="60" text-anchor="middle">guarda</text>
+      <text x="580" y="80" text-anchor="middle">f_int</text>
+      <text x="350" y="140" text-anchor="middle" style="fill:#A6192E">señal deseada</text>
+      <text x="520" y="120" style="fill:#2B2B2B">filtro de canal</text>
+      <text x="350" y="242" text-anchor="middle">f central</text>
+      <text x="650" y="184" text-anchor="end">f (Hz)</text>
+    </svg>
+    <figcaption>Esquema base de bandas (ilustrativo; las medidas reales salen de su simulación). Línea punteada: respuesta del filtro de canal; pico naranja: fuente estrecha desplazada.</figcaption>
+  </figure>
+  <figure class="fig">
+    <div class="ph">PENDIENTE · Figura 2. Diagrama técnico: fuente → modulación → canal/perturbación → visualización/receptor, con Rs, Rb, SPS, fs, modulación, nombre del GRC y bloques agregados. Añadir según escenario: esquema de espectro, constelación ideal, caminos directo y reflejado, o los dos estados de frecuencia (FSK).<br>figures/diagramas_tecnicos/fig2_sistema.png</div>
+    <!-- <img src="figures/diagramas_tecnicos/fig2_sistema.png" alt="Diagrama de bloques del sistema"> -->
+    <figcaption>Figura 2. <span class="tbd">Título</span>.</figcaption>
+  </figure>
+</section>
+
+</div>
+
+<!-- ============ CALCULADORA INTERACTIVA ============ -->
+<section class="dark" id="calculadora" aria-labelledby="t-calc">
+ <div class="wrap">
+  <div class="dhead"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M16 15h0"/></svg></span><h2 id="t-calc">Calculadora de parámetros</h2></div>
+  <div class="dgrid">
+   <div>
+    <h3 class="dtitle">Defina el sistema</h3>
+    <p class="muted" style="margin-top:0">Cambie un valor y observe cómo se relacionan Rs, Rb, SPS y fs. Los valores iniciales son el ejemplo de la guía, no son los del proyecto: reemplácelos por los de su equipo.</p>
+    <div class="two">
+     <div><label class="l" for="c-mod">Modulación</label>
+      <select id="c-mod"><option>BPSK</option><option selected>QPSK</option><option>8PSK</option><option>16QAM</option><option>OOK</option><option>BFSK</option></select></div>
+     <div><label class="l" for="c-rs">Rs · tasa de símbolos (símbolos/s)</label><input id="c-rs" type="number" min="1" step="100" value="32000"></div>
+     <div><label class="l" for="c-sps">SPS · muestras por símbolo</label><input id="c-sps" type="number" min="1" step="1" value="8"></div>
+     <div id="c-beta-wrap"><label class="l" for="c-beta">β del RRC (0 = pulso rectangular)</label><input id="c-beta" type="number" min="0" max="1" step="0.05" value="0"></div>
+     <div id="row-fsk" hidden><label class="l" for="c-df">Δf · desviación FSK (Hz)</label><input id="c-df" type="number" min="0" step="100" value="16000"></div>
+     <div><label class="l" for="c-samp">samp_rate de su GRC (opcional, para verificar)</label><input id="c-samp" type="number" min="0" step="1" placeholder="Ej.: 256000"></div>
+    </div>
+    <p class="msg" id="o-msg" aria-live="polite"></p>
+   </div>
+   <aside>
+    <p class="big"><b id="o-k">2</b> <span>bits por símbolo, k = log₂(M)</span></p>
+    <p class="big"><b id="o-rb">64.000</b> <span>bit/s, Rb = Rs · k</span></p>
+    <p class="big"><b id="o-fs">256.000</b> <span>muestras/s, fs = Rs · SPS</span></p>
+    <p class="big"><b id="o-bw">32.000</b> <span id="o-bwlab">Hz de ancho de banda</span></p>
+    <p class="big" id="o-hwrap" hidden><b id="o-h">—</b> <span>índice de modulación, h = 2Δf / Rs</span></p>
+    <button class="dbtn green" id="b-copy" type="button">Copiar tabla para el README</button>
+    <button class="dbtn grey" id="b-reset" type="button">Restablecer valores</button>
+    <div class="dlinks">
+     <a href="#diseno">Tabla de parámetros del proyecto</a>
+     <a href="#gnuradio">Dónde va fs en el GRC</a>
+     <a href="#laboratorio">Ver el efecto en la PSD</a>
+    </div>
+   </aside>
+  </div>
+ </div>
+</section>
+<div class="wrap">
+
+<!-- ============ 4. GNU RADIO ============ -->
+<section class="panel" id="gnuradio">
+  <h2>GNU Radio</h2>
+  <p><strong>Archivo original conservado:</strong> <code>grc/archivos_originales_o_referencia/<span class="tbd">nombre.grc</span></code><br>
+  <strong>Archivo modificado:</strong> <code>grc/archivos_modificados/<span class="tbd">Nombre_Grupo6.grc</span></code></p>
+  <h3>Bloques agregados o modificados</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Bloque / variable</th><th>Configuración</th><th>Qué hace y por qué se agregó</th></tr></thead>
+    <tbody>
+      <tr><td class="tbd">Signal Source (Complex) · variables f_int y A_int</td><td class="tbd">Sample Rate = samp_rate; Frequency = f_int; Amplitude = A_int</td><td class="tbd">Genera la fuente estrecha desplazada que representa la emisión cercana</td></tr>
+      <tr><td class="tbd">Add (Complex) adicional</td><td class="tbd">Entrada 0: señal + AWGN; entrada 1: fuente estrecha</td><td class="tbd">Suma la emisión cercana a la señal deseada antes de las visualizaciones</td></tr>
+      <tr><td class="tbd">QT GUI Frequency Sink (PSD)</td><td class="tbd">Conectar a la salida del segundo Add</td><td class="tbd">Permite medir la guarda y la altura del pico frente a la señal</td></tr>
+      <tr><td class="tbd">Filtro de canal (Low Pass Filter), solo si el sistema base ya funciona</td><td class="tbd">Cutoff Freq y Transition Width</td><td class="tbd">Extensión opcional para estudiar la selectividad [4], [5]</td></tr>
+    </tbody></table></div>
+  <figure class="fig">
+    <div class="ph">PENDIENTE · Figura 3. GRC base o arquitectura inicial.<br>figures/diagramas_tecnicos/fig3_grc_base.png</div>
+    <!-- <img src="figures/diagramas_tecnicos/fig3_grc_base.png" alt="Flujograma GRC base"> -->
+    <figcaption>Figura 3. <span class="tbd">Título</span>.</figcaption>
+  </figure>
+  <figure class="fig">
+    <div class="ph">PENDIENTE · Figura 4. GRC modificado (resaltar los bloques nuevos).<br>figures/diagramas_tecnicos/fig4_grc_modificado.png</div>
+    <!-- <img src="figures/diagramas_tecnicos/fig4_grc_modificado.png" alt="Flujograma GRC modificado"> -->
+    <figcaption>Figura 4. <span class="tbd">Título</span>.</figcaption>
+  </figure>
+  <p><strong>Cómo ejecutarlo:</strong> <span class="tbd">versión de GNU Radio y pasos en GNU Radio Companion.</span> Más detalles en el <a href="#" class="tbd">README del repositorio</a>.</p>
+</section>
+
+</div>
+
+<!-- ============ LABORATORIO INTERACTIVO ============ -->
+<section class="dark" id="laboratorio" aria-labelledby="t-lab">
+ <div class="wrap">
+  <div class="dhead"><span class="ico"><svg width="32" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h5l2-10 3 14 3-9 2 5h5"/></svg></span><h2 id="t-lab">Laboratorio de selectividad</h2></div>
+  <h3 class="dtitle">Qué pasa cuando la emisión cercana se acerca</h3>
+  <p class="muted" style="margin-top:0">Modelo didáctico simplificado: ruido gaussiano más una fuente estrecha desplazada, con los parámetros de la calculadora (<span id="l-using"></span>). <a href="#calculadora" style="color:#fff">Cambiar parámetros</a>. El filtro de canal es una extensión opcional: la guía pide cerrar primero el sistema base. Las evidencias del informe deben salir de su propio GRC.</p>
+  <div class="presets" role="group" aria-label="Condiciones de ejemplo">
+   <button class="dbtn grey" type="button" data-a="0" data-m="1.5">A · Referencia</button>
+   <button class="dbtn grey" type="button" data-a="0.25" data-m="1.5">B · Suave (guarda amplia)</button>
+   <button class="dbtn grey" type="button" data-a="0.25" data-m="0.75">C · Media (cerca del borde)</button>
+   <button class="dbtn grey" type="button" data-a="0.25" data-m="0.25">D · Fuerte (dentro de la banda)</button>
+  </div>
+  <div class="sliders">
+   <div><label class="l" for="l-n">noise_amp: <b id="v-n"></b></label><input id="l-n" type="range" min="0" max="0.6" step="0.01" value="0.10"></div>
+   <div><label class="l" for="l-a">A_int (amplitud interferente): <b id="v-a"></b></label><input id="l-a" type="range" min="0" max="0.6" step="0.01" value="0.25"></div>
+   <div><label class="l" for="l-f">f_int (posición del interferente): <b id="v-f"></b></label><input id="l-f" type="range" min="-128000" max="128000" step="250" value="24000"></div>
+  </div>
+  <div class="sliders" style="margin-top:1.25rem">
+   <div><label class="l" for="l-on">Filtro de canal del receptor</label>
+    <label style="display:block;cursor:pointer"><input id="l-on" type="checkbox" style="accent-color:#2A9D0F;width:1.05rem;height:1.05rem;vertical-align:-2px"> Activar (pasabajas centrado en la señal)</label></div>
+   <div><label class="l" for="l-w">Ancho del filtro (Hz): <b id="v-w"></b></label><input id="l-w" type="range" min="1000" max="250000" step="500" value="40000"></div>
+   <div><label class="l" for="l-o">Pendiente de los flancos</label>
+    <select id="l-o"><option value="2">Suave (orden 2)</option><option value="4" selected>Media (orden 4)</option><option value="8">Abrupta (orden 8)</option></select></div>
+  </div>
+  <div class="lab">
+   <div><canvas id="cv-psd" class="cv" width="1000" height="440" role="img" aria-label="Densidad espectral de potencia simulada"></canvas>
+    <small>PSD (dB relativos al pico de la señal) frente a frecuencia. Franja roja: banda útil estimada. Línea punteada blanca: respuesta del filtro de canal.</small></div>
+   <div><canvas id="cv-const" class="cv" width="440" height="440" role="img" aria-label="Constelación simulada"></canvas>
+    <small>Constelación: círculos blancos = símbolos ideales; puntos rojos = símbolos recibidos.</small></div>
+  </div>
+  <div class="dgrid" style="margin-top:1.75rem">
+   <div><h3 class="dtitle" style="font-size:1.3rem">¿Qué se observa?</h3><p id="l-expl" aria-live="polite" style="margin:0"></p></div>
+   <aside>
+    <p class="big"><b id="m-guard">—</b> <span id="m-guard-l">de guarda</span></p>
+    <p class="big"><b id="m-att">—</b> <span>de atenuación al interferente</span></p>
+    <p class="big"><b id="m-sir">—</b> <span>relación señal/interferencia</span></p>
+    <p class="big"><b id="m-evm">0 %</b> <span>EVM aproximada</span></p>
+   </aside>
+  </div>
+ </div>
+</section>
+<div class="wrap">
+
+<!-- ============ 5. RESULTADOS ============ -->
+<section class="panel" id="resultados">
+  <h2>Experimentos y resultados</h2>
+  <p>En cada prueba se cambia una sola variable principal: f_int, la posición del interferente. A_int, el ruido, Rs, SPS y la modulación permanecen constantes. Por eso la comparación entre pruebas muestra solo el efecto de la cercanía.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Prueba</th><th>Severidad</th><th>Valores exactos</th><th>Evidencias</th></tr></thead>
+    <tbody>
+      <tr><td>A</td><td>Referencia</td><td class="tbd">A_int = 0 (sin emisión cercana)</td><td class="tbd">PSD, constelación/frec. inst., señal temporal</td></tr>
+      <tr><td>B</td><td>Suave</td><td class="tbd">f_int lejos de la banda útil (guarda amplia); A_int constante</td><td class="tbd">…</td></tr>
+      <tr><td>C</td><td>Media (principal)</td><td class="tbd">f_int cerca del borde de la banda útil; A_int constante</td><td class="tbd">…</td></tr>
+      <tr><td>D</td><td>Fuerte</td><td class="tbd">f_int en el borde o dentro de la banda útil; A_int constante</td><td class="tbd">…</td></tr>
+    </tbody></table></div>
+
+  <h3>Prueba A · Referencia</h3>
+  <figure class="fig"><div class="ph">PENDIENTE · Figura 5. PSD de referencia (título, ejes y unidades).<br>figures/psd/fig5_psd_ref.png</div><figcaption>Figura 5. <span class="tbd">Título</span>.</figcaption></figure>
+  <figure class="fig"><div class="ph">PENDIENTE · Figura 7. Constelación (PSK/QAM) o frecuencia instantánea (FSK) de referencia.<br>figures/constelacion_o_fsk/fig7_ref.png</div><figcaption>Figura 7. <span class="tbd">Título</span>.</figcaption></figure>
+  <p><span class="tbd">Explicación de 3 a 6 líneas: qué cambió, por qué cambió y cómo se relaciona con el escenario.</span></p>
+
+  <h3>Prueba B · Suave</h3>
+  <figure class="fig"><div class="ph">PENDIENTE · PSD, constelación/frecuencia instantánea y señal temporal de la prueba B.</div><figcaption>Figura <span class="tbd">N</span>. <span class="tbd">Título</span>.</figcaption></figure>
+  <p><span class="tbd">Explicación de 3 a 6 líneas.</span></p>
+
+  <h3>Prueba C · Media</h3>
+  <figure class="fig"><div class="ph">PENDIENTE · Figura 6. PSD bajo perturbación media.<br>figures/psd/fig6_psd_media.png</div><figcaption>Figura 6. <span class="tbd">Título</span>.</figcaption></figure>
+  <figure class="fig"><div class="ph">PENDIENTE · Figura 8. Constelación o frecuencia instantánea degradada.<br>figures/constelacion_o_fsk/fig8_media.png</div><figcaption>Figura 8. <span class="tbd">Título</span>.</figcaption></figure>
+  <p><span class="tbd">Explicación de 3 a 6 líneas.</span></p>
+
+  <h3>Prueba D · Fuerte</h3>
+  <figure class="fig"><div class="ph">PENDIENTE · PSD, constelación/frecuencia instantánea y señal temporal de la prueba D.</div><figcaption>Figura <span class="tbd">N</span>. <span class="tbd">Título</span>.</figcaption></figure>
+  <p><span class="tbd">Explicación de 3 a 6 líneas.</span></p>
+
+  <h3>Síntesis</h3>
+  <figure class="fig"><div class="ph">PENDIENTE · Figura 9. Comparación final o síntesis del comportamiento (A–D).<br>figures/fig9_sintesis.png</div><figcaption>Figura 9. <span class="tbd">Título</span>.</figcaption></figure>
+  <p><span class="tbd">COMPLETAR: análisis global y conclusión principal. Cada figura necesita un párrafo que explique qué demuestra.</span></p>
+</section>
+
+<!-- ============ 6. MULTIMEDIA ============ -->
+<section class="panel" id="multimedia">
+  <h2>Multimedia</h2>
+  <h3>Galería</h3>
+  <div class="gallery">
+    <figure class="fig"><div class="ph">PENDIENTE · figura 1</div><figcaption class="tbd">Pie de figura</figcaption></figure>
+    <figure class="fig"><div class="ph">PENDIENTE · figura 2</div><figcaption class="tbd">Pie de figura</figcaption></figure>
+    <figure class="fig"><div class="ph">PENDIENTE · figura 3</div><figcaption class="tbd">Pie de figura</figcaption></figure>
+  </div>
+  <h3>Video de socialización (aprox. 8–10 min)</h3>
+  <!-- Al tener el video, reemplazar el div por:
+  <iframe src="https://www.youtube.com/embed/ID_DEL_VIDEO" title="Video de socialización" allowfullscreen></iframe> -->
+  <div class="video"><div>PENDIENTE · Video de socialización<br>Enlace público (YouTube «no listado» o similar, sin pedir permisos).</div></div>
+</section>
+
+<!-- ============ 7. BITÁCORA ============ -->
+<section class="panel" id="bitacora">
+  <h2>Bitácora y aprendizaje</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Fecha</th><th>Decisión o cambio</th><th>Dificultad</th><th>Cómo se resolvió</th></tr></thead>
+    <tbody>
+      <tr><td class="tbd">dd/mm</td><td class="tbd">—</td><td class="tbd">—</td><td class="tbd">—</td></tr>
+      <tr><td class="tbd">dd/mm</td><td class="tbd">—</td><td class="tbd">—</td><td class="tbd">—</td></tr>
+    </tbody></table></div>
+  <p>Versión completa en <code>docs/bitacora.md</code> del repositorio.</p>
+</section>
+
+<!-- ============ 8. REFLEXIÓN ============ -->
+<section class="panel" id="reflexion">
+  <h2>Reflexión metacognitiva</h2>
+  <p><strong>¿Qué aprendió el equipo?</strong> <span class="tbd">COMPLETAR</span></p>
+  <p><strong>¿Qué decisiones cambiaría?</strong> <span class="tbd">COMPLETAR</span></p>
+  <p><strong>¿Qué profundizaría en una siguiente versión?</strong> <span class="tbd">COMPLETAR</span></p>
+</section>
+
+</div>
+
+<!-- ============ AUTOEVALUACION ============ -->
+<section class="dark" id="verificacion" aria-labelledby="t-ver">
+ <div class="wrap">
+  <div class="dhead"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span><h2 id="t-ver">Autoevaluación del equipo</h2></div>
+  <div class="dgrid" style="grid-template-columns:1fr 1fr">
+   <div>
+    <h3 class="dtitle">Antes de abrir GNU Radio</h3>
+    <p class="big"><b id="n-pre">0</b> <span>de 13 preguntas respondidas</span></p>
+    <div id="l-pre" style="margin-top:.8rem"></div>
+   </div>
+   <div>
+    <h3 class="dtitle">Antes de entregar</h3>
+    <p class="big"><b id="n-fin">0</b> <span>de 16 puntos verificados</span></p>
+    <div id="l-fin" style="margin-top:.8rem"></div>
+   </div>
+  </div>
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem">
+   <button class="dbtn green" id="v-copy" type="button" style="margin:0">Copiar pendientes</button>
+   <button class="dbtn grey" id="v-reset" type="button" style="margin:0">Reiniciar listas</button>
+  </div>
+  <p class="msg" id="v-msg" aria-live="polite"></p>
+ </div>
+</section>
+<div class="wrap">
+
+<!-- ============ 9. IA ============ -->
+<section class="panel" id="ia">
+  <h2>Uso de IA y herramientas</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Herramienta</th><th>Propósito</th><th>Validación humana</th></tr></thead>
+    <tbody>
+      <tr><td>GNU Radio Companion <span class="tbd">versión</span></td><td>Simulación del sistema</td><td class="tbd">—</td></tr>
+      <tr><td class="tbd">Herramienta de IA (si se usó)</td><td class="tbd">Ej.: ilustración del escenario</td><td class="tbd">Qué se revisó y qué etiquetas/medidas añadió el equipo</td></tr>
+    </tbody></table></div>
+  <h3>Declaración de originalidad y responsabilidad</h3>
+  <div class="decl"><span class="tbd">PENDIENTE · Pegar aquí, sin cambios, la declaración utilizada en el reto ABET SO7.</span></div>
+</section>
+
+<!-- ============ 10. REFERENCIAS ============ -->
+<section class="panel" id="referencias">
+  <h2>Referencias</h2>
+  <ol>
+    <li>3GPP, «Base Station (BS) radio transmission and reception», TS 36.104, sec. 7.5 «Adjacent Channel Selectivity (ACS) and narrow-band blocking». [En línea]. Disponible: <a href="https://itecspec.com/3gpp/36.104/s/7.5">https://itecspec.com/3gpp/36.104/s/7.5</a></li>
+    <li>Electronics Notes, «Adjacent Channel Selectivity, ACS». [En línea]. Disponible: <a href="https://www.electronics-notes.com/articles/radio/radio-receiver-selectivity/adjacent-channel-selectivity.php">https://www.electronics-notes.com/articles/radio/radio-receiver-selectivity/adjacent-channel-selectivity.php</a></li>
+    <li>RF Essentials, «What is the guard band between adjacent frequency allocations and how does it affect filter design?». [En línea]. Disponible: <a href="https://rfessentials.com/rf-knowledge-base/what-is-the-guard-band-between-adjacent-frequency-allocations-and-how-does-it-af/">rfessentials.com</a> <span class="tbd">verificar o complementar con una fuente académica</span></li>
+    <li>GNU Radio Wiki, «Low Pass Filter». [En línea]. Disponible: <a href="https://wiki.gnuradio.org/index.php/Low_Pass_Filter">https://wiki.gnuradio.org/index.php/Low_Pass_Filter</a></li>
+    <li>GNU Radio Wiki, «Low Pass Filter Example». [En línea]. Disponible: <a href="https://wiki.gnuradio.org/index.php/Low_Pass_Filter_Example">https://wiki.gnuradio.org/index.php/Low_Pass_Filter_Example</a></li>
+    <li>CEPT, «1.2.10 Adjacent channel selectivity (ACS)». [En línea]. Disponible: <a href="https://wiki.cept.org/books/1-introduction/page/1210-adjacent-channel-selectivity-acs">wiki.cept.org</a></li>
+    <li>GNU Radio Project, «GNU Radio». [En línea]. Disponible: <a href="https://www.gnuradio.org">https://www.gnuradio.org</a></li>
+    <li>Repositorio del proyecto: <a href="#" class="tbd">enlace a GitHub</a></li>
+  </ol>
+</section>
+
+<!-- ============ 11. INTERACCIÓN ============ -->
+<section class="panel" id="interaccion">
+  <h2>Interacción</h2>
+  <p>¿Dudas, correcciones o ideas? Déjelas en el formulario; el equipo las revisa y responde.</p>
+  <p><a class="btn" href="#">Enviar comentarios</a><br><span class="tbd">PENDIENTE: reemplazar href por el enlace público de un Google Forms (o activar Giscus / GitHub Discussions).</span></p>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    Comunicaciones II · 27145 · Escuela de Ingenierías Eléctrica, Electrónica y de Telecomunicaciones, UIS<br>
+    Última actualización: <span class="tbd">dd/mm/2026</span> · <a href="#" class="tbd">Repositorio en GitHub</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var MODS={BPSK:2,QPSK:4,'8PSK':8,'16QAM':16,OOK:2,BFSK:2};
+var P={};
+var nf=new Intl.NumberFormat('es-CO',{maximumFractionDigits:3});
+function f(n){return nf.format(n)}
+function flash(el,t){el.textContent=t;setTimeout(function(){el.textContent=''},3500)}
+function copy(txt,el){
+  function ok(){flash(el,'Copiado al portapapeles.')}
+  try{navigator.clipboard.writeText(txt).then(ok,function(){flash(el,'No se pudo copiar. Seleccione el texto manualmente.')})}
+  catch(e){flash(el,'No se pudo copiar en este navegador.')}
+}
+
+/* ---------- Calculadora ---------- */
+function readCalc(){
+  P.mod=$('c-mod').value;
+  P.Rs=Math.max(0,+$('c-rs').value||0);
+  P.sps=Math.max(0,+$('c-sps').value||0);
+  P.beta=Math.min(1,Math.max(0,+$('c-beta').value||0));
+  P.df=Math.max(0,+$('c-df').value||0);
+  P.fsk=P.mod==='BFSK';
+  P.k=Math.log2(MODS[P.mod]);
+  P.Rb=P.Rs*P.k;
+  P.fs=P.Rs*P.sps;
+  P.bw=P.fsk?2*P.df+P.Rs:(1+P.beta)*P.Rs;
+}
+function calc(){
+  readCalc();
+  $('o-k').textContent=f(P.k);$('o-rb').textContent=f(P.Rb);
+  $('o-fs').textContent=f(P.fs);$('o-bw').textContent=f(P.bw);
+  $('o-bwlab').textContent=P.fsk?'Hz de ancho de banda (Carson aprox.: 2Δf + Rs)':'Hz de ancho de banda ≈ (1 + β) · Rs';
+  $('row-fsk').hidden=!P.fsk;$('o-hwrap').hidden=!P.fsk;$('c-beta-wrap').hidden=P.fsk;
+  $('o-h').textContent=P.Rs?f(2*P.df/P.Rs):'—';
+  var m=[],sv=$('c-samp').value.trim();
+  if(sv!==''){m.push(+sv===P.fs?'✓ samp_rate coincide con fs = Rs · SPS.':'✗ El samp_rate de su GRC ('+f(+sv)+') no coincide con Rs · SPS ('+f(P.fs)+').')}
+  if(P.sps<2)m.push('Con SPS menor que 2 no hay muestras suficientes por símbolo.');
+  if(P.fs>0&&P.bw>P.fs)m.push('El ancho de banda supera fs: el espectro se solaparía (aliasing).');
+  $('o-msg').textContent=m.join(' ');
+  var l=$('l-f'),w=$('l-w'),half=P.fs/2;
+  if(half>0){l.min=-half;l.max=half;l.step=Math.max(1,Math.round(P.fs/1024));
+    if(Math.abs(+l.value)>half)l.value=Math.round(half/2);
+    w.min=Math.max(1,Math.round(P.bw*0.3));w.max=Math.round(P.fs*0.98);w.step=Math.max(1,Math.round(P.fs/512));
+    if(!w.dataset.init){w.value=Math.round(P.bw*1.25);w.dataset.init='1'}
+    else if(+w.value>+w.max)w.value=w.max;else if(+w.value<+w.min)w.value=w.min}
+  render();
+}
+['c-mod','c-rs','c-sps','c-beta','c-df','c-samp'].forEach(function(i){$(i).addEventListener('input',calc)});
+$('b-reset').addEventListener('click',function(){
+  $('c-mod').value='QPSK';$('c-rs').value=32000;$('c-sps').value=8;$('c-beta').value=0;$('c-df').value=16000;$('c-samp').value='';calc()});
+$('b-copy').addEventListener('click',function(){
+  var r=['| Parámetro | Valor |','|---|---|','| Modulación | '+P.mod+' |','| Bits por símbolo (k) | '+f(P.k)+' |',
+   '| Rs (símbolos/s) | '+f(P.Rs)+' |','| Rb (bit/s) | '+f(P.Rb)+' |','| SPS | '+f(P.sps)+' |','| fs (muestras/s) | '+f(P.fs)+' |',
+   '| Ancho de banda (Hz) | '+f(P.bw)+' |'];
+  if(P.fsk)r.push('| h = 2Δf/Rs | '+f(2*P.df/P.Rs)+' |');
+  copy(r.join('\n'),$('o-msg'))});
+
+/* ---------- Laboratorio ---------- */
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+var NP=600,R1=[],G1=[],G2=[],rd=rng(20260);
+for(var q=0;q<NP;q++){var u=rd()||1e-9,v=rd();var r=Math.sqrt(-2*Math.log(u));R1.push(rd());G1.push(r*Math.cos(2*Math.PI*v));G2.push(r*Math.sin(2*Math.PI*v))}
+function sinc2(x){if(Math.abs(x)<1e-9)return 1;var t=Math.PI*x;return Math.pow(Math.sin(t)/t,2)}
+function sigShape(fr){return P.fsk?0.5*(sinc2((fr-P.df)/P.Rs)+sinc2((fr+P.df)/P.Rs)):sinc2(fr/P.Rs)}
+function H2(fr,fc,o){return 1/(1+Math.pow(Math.abs(fr)/fc,2*o))}
+function ideal(){
+  var m=P.mod,p=[],i;
+  if(m==='BPSK')p=[[-1,0],[1,0]];
+  else if(m==='OOK')p=[[0,0],[1.4142,0]];
+  else if(m==='QPSK'){var h=0.7071;p=[[h,h],[-h,h],[-h,-h],[h,-h]]}
+  else if(m==='8PSK'){for(i=0;i<8;i++)p.push([Math.cos(Math.PI/4*i),Math.sin(Math.PI/4*i)])}
+  else if(m==='16QAM'){var lv=[-3,-1,1,3];lv.forEach(function(x){lv.forEach(function(y){p.push([x/3.1623,y/3.1623])})})}
+  return p}
+function cfg(){return{n:+$('l-n').value,a:+$('l-a').value,fi:+$('l-f').value,on:$('l-on').checked,fc:Math.max(1,+$('l-w').value/2),o:+$('l-o').value}}
+function stats(k){
+  var NN=1024,sn=0,so=0,hn=0,i;
+  for(i=0;i<NN;i++){var fr=-P.fs/2+P.fs*(i+0.5)/NN,h=k.on?H2(fr,k.fc,k.o):1,s=sigShape(fr);sn+=s;so+=s*h;hn+=h}
+  return{nf:hn/NN,gs2:sn>0?so/sn:1,hfi:k.on?H2(k.fi,k.fc,k.o):1}}
+function drawPSD(k){
+  var cv=$('cv-psd'),c=cv.getContext('2d'),W=cv.width,H=cv.height,L=80,R=20,T=34,B=56,pw=W-L-R,ph=H-T-B,ymin=-70,ymax=25,y,i;
+  function X(fr){return L+pw*(fr+P.fs/2)/P.fs}
+  function Y(db){return T+ph*(ymax-db)/(ymax-ymin)}
+  c.fillStyle='#161C1F';c.fillRect(0,0,W,H);
+  if(!(P.fs>0&&P.Rs>0))return;
+  c.font='20px "Open Sans",sans-serif';c.textBaseline='middle';
+  if(!P.fsk){c.fillStyle='rgba(229,57,70,.14)';var x0=Math.max(L,X(-P.bw/2)),x1=Math.min(L+pw,X(P.bw/2));c.fillRect(x0,T,x1-x0,ph)}
+  c.textAlign='right';
+  for(y=-70;y<=20;y+=10){c.strokeStyle='#2C373C';c.lineWidth=1;c.beginPath();c.moveTo(L,Y(y));c.lineTo(L+pw,Y(y));c.stroke();c.fillStyle='#8FA1A9';c.fillText(y,L-10,Y(y))}
+  c.textAlign='left';c.fillStyle='#8FA1A9';c.fillText('dB',L-60,16);
+  c.textAlign='center';
+  [-0.5,-0.25,0,0.25,0.5].forEach(function(fr){c.fillText(f(P.fs*fr/1000)+' kHz',X(P.fs*fr),H-22)});
+  var NN=1024,bw=P.fs/NN,n0=k.n*k.n/P.sps;
+  if(k.on){c.beginPath();c.strokeStyle='#FFFFFF';c.lineWidth=1.5;c.setLineDash([8,6]);
+    for(i=0;i<=NN;i++){var fq=-P.fs/2+P.fs*i/NN,hd=Math.max(ymin,10*Math.log10(H2(fq,k.fc,k.o)+1e-12));if(i===0)c.moveTo(X(fq),Y(hd));else c.lineTo(X(fq),Y(hd))}
+    c.stroke();c.setLineDash([])}
+  c.beginPath();c.strokeStyle='#FF5560';c.lineWidth=2;
+  for(i=0;i<=NN;i++){
+    var fr=-P.fs/2+P.fs*i/NN,h=k.on?H2(fr,k.fc,k.o):1;
+    var t=k.a>0?k.a*k.a*NN/P.sps*Math.exp(-0.5*Math.pow((fr-k.fi)/(bw*0.8),2)):0;
+    var db=10*Math.log10(h*(sigShape(fr)+n0+t)+1e-9);db=Math.max(ymin,Math.min(ymax,db));
+    if(i===0)c.moveTo(X(fr),Y(db));else c.lineTo(X(fr),Y(db))}
+  c.stroke();
+  if(k.a>0){c.fillStyle='#fff';c.textAlign='center';var lx=Math.max(L+30,Math.min(L+pw-30,X(k.fi)));c.fillText('f_int',lx,T+14)}
+}
+function drawConst(k,st){
+  var cv=$('cv-const'),c=cv.getContext('2d'),S=cv.width,C=S/2,K=(S/2-30)/1.8;
+  c.fillStyle='#161C1F';c.fillRect(0,0,S,S);
+  c.strokeStyle='#2C373C';c.lineWidth=1;c.beginPath();c.moveTo(0,C);c.lineTo(S,C);c.moveTo(C,0);c.lineTo(C,S);c.stroke();
+  c.fillStyle='#8FA1A9';c.font='18px "Open Sans",sans-serif';c.textAlign='left';c.fillText('I',S-18,C-10);c.fillText('Q',C+8,18);
+  if(P.fsk){c.textAlign='center';c.fillStyle='#fff';c.font='22px "Open Sans",sans-serif';
+    c.fillText('FSK no usa constelación I/Q.',C,C-14);c.fillText('En GNU Radio observe la',C,C+16);c.fillText('frecuencia instantánea.',C,C+44);return 0}
+  var id=ideal(),gs=Math.sqrt(st.gs2),pw=0,i,err=0,sg=k.n/Math.SQRT2*Math.sqrt(st.nf),ta=k.a*Math.sqrt(st.hfi);
+  id.forEach(function(p){pw+=p[0]*p[0]+p[1]*p[1]});pw=pw/id.length*st.gs2+1e-12;
+  var pts=[];
+  for(i=0;i<NP;i++){
+    var sy=id[Math.floor(R1[i]*id.length)],sx=sy[0]*gs,sy2=sy[1]*gs,ph=2*Math.PI*k.fi/P.Rs*i;
+    var rx=sx+sg*G1[i]+ta*Math.cos(ph),ry=sy2+sg*G2[i]+ta*Math.sin(ph);
+    err+=(rx-sx)*(rx-sx)+(ry-sy2)*(ry-sy2);pts.push([rx,ry])}
+  c.fillStyle='rgba(255,85,96,.55)';
+  pts.forEach(function(p){c.beginPath();c.arc(C+p[0]*K,C-p[1]*K,3.5,0,6.2832);c.fill()});
+  c.strokeStyle='#fff';c.lineWidth=2;
+  id.forEach(function(p){c.beginPath();c.arc(C+p[0]*gs*K,C-p[1]*gs*K,9,0,6.2832);c.stroke()});
+  return Math.sqrt(err/NP/pw)*100;
+}
+function render(){
+  if(!(P.fs>0&&P.Rs>0&&P.sps>0))return;
+  var k=cfg(),st=stats(k);
+  $('v-n').textContent=k.n.toFixed(2);$('v-a').textContent=k.a.toFixed(2);$('v-f').textContent=f(k.fi)+' Hz';$('v-w').textContent=f(2*k.fc)+' Hz';
+  $('l-w').disabled=$('l-o').disabled=!k.on;
+  $('l-using').textContent=P.mod+', Rs = '+f(P.Rs)+', SPS = '+f(P.sps)+', fs = '+f(P.fs);
+  drawPSD(k);
+  var evm=drawConst(k,st);
+  $('m-evm').textContent=P.fsk?'—':evm.toFixed(1)+' %';
+  var guard=Math.abs(k.fi)-P.bw/2;
+  $('m-guard').textContent=f(Math.round(Math.abs(guard)))+' Hz';
+  $('m-guard-l').textContent=guard>=0?'de guarda hasta el borde de la banda útil':'dentro de la banda útil';
+  var att=-10*Math.log10(st.hfi+1e-12);
+  $('m-att').textContent=k.a>0?(att>90?'más de 90 dB':att.toFixed(0)+' dB'):'—';
+  $('m-sir').textContent=k.a>0?(10*Math.log10(st.gs2/(k.a*k.a*st.hfi+1e-12))).toFixed(1)+' dB':'—';
+  var t;
+  if(k.a===0&&k.n===0)t='Sin perturbación: la PSD muestra solo el espectro de la señal y los puntos coinciden con los símbolos ideales.';
+  else if(k.a===0)t='Solo ruido: el piso de la PSD sube y los puntos se dispersan en nubes alrededor de cada símbolo ideal.';
+  else{
+    t=guard>=0?'La emisión cercana está fuera de la banda útil, a '+f(Math.round(guard))+' Hz del borde (banda de guarda).':'La emisión cercana cae dentro de la banda útil: ningún filtro de canal puede separarla de la señal sin dañarla.';
+    t+=' En la PSD es un pico estrecho en f_int; como su fase gira de un símbolo al siguiente, en la constelación los puntos forman un anillo alrededor de cada símbolo ideal. ';
+    t+=k.on?'El filtro la atenúa '+(att>90?'más de 90':att.toFixed(0))+' dB, y esa atenuación depende del ancho y de la pendiente del filtro. Un filtro más angosto rechaza más, pero empieza a recortar la señal útil.':'Sin filtro de canal entra completa al receptor: active el filtro para ver cómo la selectividad recupera la constelación.';
+    if(k.n>0)t+=' El ruido añade además la nube de dispersión.'}
+  $('l-expl').textContent=t;
+}
+['l-n','l-a','l-f','l-w','l-o'].forEach(function(i){$(i).addEventListener('input',function(){
+  [].forEach.call(document.querySelectorAll('.presets .dbtn'),function(b){b.classList.remove('on')});render()})});
+$('l-on').addEventListener('change',render);
+[].forEach.call(document.querySelectorAll('.presets .dbtn'),function(b){b.addEventListener('click',function(){
+  $('l-n').value=0.10;$('l-a').value=b.getAttribute('data-a');
+  var fv=Math.round(+b.getAttribute('data-m')*P.bw);if(fv>P.fs/2*0.98)fv=Math.round(P.fs/2*0.98);$('l-f').value=fv;
+  [].forEach.call(document.querySelectorAll('.presets .dbtn'),function(x){x.classList.remove('on')});b.classList.add('on');render()})});
+
+/* ---------- Autoevaluación ---------- */
+var PRE=['¿Qué situación profesional representa el escenario?','¿Cuál es el fenómeno físico que puede degradar la comunicación?','¿Qué información se quiere transmitir?','¿Qué modulación se selecciona y por qué?','¿Qué otra modulación se consideró y por qué no se escogió?','¿Cuál es la tasa de símbolos Rs?','¿Cuál es la tasa de bits Rb?','¿Cuál es el número de muestras por símbolo (SPS)?','¿Cuál es la tasa de muestreo fs y cómo se obtiene?','¿Cuál es el ancho de banda esperado o aproximado?','¿Qué variable se modificará en el experimento?','¿Qué gráfica o evidencia permitirá observar el fenómeno?','¿Qué se espera que ocurra antes de hacer la simulación?'];
+var FIN=['El escenario está explicado y relacionado con una situación profesional.','La modulación tiene una justificación técnica.','Rs, Rb, SPS y fs son coherentes entre sí.','El ancho de banda está explicado con el modelo utilizado.','El GRC original se conservó y el modificado tiene un nombre claro.','La perturbación corresponde realmente al escenario.','Hay una prueba de referencia y tres niveles de perturbación.','Las gráficas tienen títulos, ejes y unidades.','El análisis explica qué cambió y por qué.','Las imágenes del escenario tienen mobiliario, antenas, ondas y etiquetas.','El repositorio tiene README, GRC, figuras, datos/documentos y bitácora.','El README contiene el enlace público al blog.','El blog incluye desarrollo técnico, multimedia, reflexión, uso de IA y referencias.','El informe IEEE está en el repositorio y coincide con los resultados.','Todos los enlaces funcionan sin solicitar permisos.','El equipo puede defender oralmente cada parámetro.'];
+function build(id,arr,key){
+  var box=$(id),saved=[];
+  try{saved=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){}
+  arr.forEach(function(t,i){var l=document.createElement('label');l.className='chk';
+    var cb=document.createElement('input');cb.type='checkbox';cb.checked=!!saved[i];cb.addEventListener('change',upd);
+    l.appendChild(cb);l.appendChild(document.createTextNode(t));box.appendChild(l)})}
+function boxes(id){return [].slice.call($(id).querySelectorAll('input'))}
+function upd(){
+  [['l-pre','n-pre','ev_pre'],['l-fin','n-fin','ev_fin']].forEach(function(x){
+    var b=boxes(x[0]);$(x[1]).textContent=b.filter(function(c){return c.checked}).length;
+    try{localStorage.setItem(x[2],JSON.stringify(b.map(function(c){return c.checked})))}catch(e){}})}
+build('l-pre',PRE,'ev_pre');build('l-fin',FIN,'ev_fin');upd();
+$('v-reset').addEventListener('click',function(){boxes('l-pre').concat(boxes('l-fin')).forEach(function(c){c.checked=false});upd()});
+$('v-copy').addEventListener('click',function(){
+  var out=['Pendientes antes de abrir GNU Radio:'],o2=['','Pendientes antes de entregar:'];
+  boxes('l-pre').forEach(function(c,i){if(!c.checked)out.push('- '+PRE[i])});
+  boxes('l-fin').forEach(function(c,i){if(!c.checked)o2.push('- '+FIN[i])});
+  copy(out.concat(o2).join('\n'),$('v-msg'))});
+
+calc();
+})();
+</script>
+</body>
+</html>
