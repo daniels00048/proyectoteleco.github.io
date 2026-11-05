@@ -1,0 +1,13 @@
+Reto ABET SO7 · Grupo 6 · Massive MIMO · Referencias (IEEE)
+
+[1] E. G. Larsson, O. Edfors, F. Tufvesson, and T. L. Marzetta, "Massive MIMO for next generation wireless systems," IEEE Communications Magazine, vol. 52, no. 2, pp. 186–195, Feb. 2014, doi: 10.1109/MCOM.2014.6736761.
+[2] T. L. Marzetta, "Noncooperative cellular wireless with unlimited numbers of base station antennas," IEEE Transactions on Wireless Communications, vol. 9, no. 11, pp. 3590–3600, Nov. 2010.
+[3] E. Björnson, L. Sanguinetti, H. Wymeersch, J. Hoydis, and T. L. Marzetta, "Massive MIMO is a reality—What is next? Five promising research directions for antenna arrays," Digital Signal Processing, vol. 94, pp. 3–20, Nov. 2019, doi: 10.1016/j.dsp.2019.06.007.
+[4] H. Q. Ngo, E. G. Larsson, and T. L. Marzetta, "Energy and spectral efficiency of very large multiuser MIMO systems," IEEE Transactions on Communications, vol. 61, no. 4, pp. 1436–1449, Apr. 2013.
+[5] N. J. van Eck and L. Waltman, "Software survey: VOSviewer, a computer program for bibliometric mapping," Scientometrics, vol. 84, no. 2, pp. 523–538, 2010, doi: 10.1007/s11192-009-0146-3.
+[6] O. Elijah, C. Y. Leow, T. A. Rahman, S. Nunoo, and S. Z. Iliya, "A comprehensive survey of pilot contamination in Massive MIMO–-5G system," IEEE Communications Surveys & Tutorials, vol. 18, no. 2, pp. 905–923, 2016, doi: 10.1109/COMST.2015.2504379.
+[7] M. Q. Khan, A. Gaber, P. Schulz, and G. Fettweis, "Machine learning for millimeter wave and terahertz beam management: A survey and open challenges," IEEE Access, vol. 11, pp. 11880–11902, 2023, doi: 10.1109/ACCESS.2023.3242582.
+[8] T. L. Marzetta, "Noncooperative Cellular Wireless with Unlimited Numbers of Base Station Antennas," IEEE Transactions on Wireless Communications, vol. 9, no. 11, pp. 3590–3600, Nov. 2010, doi: 10.1109/TWC.2010.092810.
+[9] J. Liu et al., "Initial Access, Mobility, and User-Centric Multi-Beam Operation in 5G New Radio," IEEE Communications Magazine, vol. 56, no. 3, pp. 35–41, Mar. 2018, doi: 10.1109/MCOM.2018.1700827.
+[10] M. S. Sim, Y.-G. Lim, S. H. Park, L. Dai, and C.-B. Chae, "Deep Learning-Based mmWave Beam Selection for 5G NR/6G With Sub-6 GHz Channel Information: Algorithms and Prototype Validation," IEEE Access, vol. 8, pp. 51634–51646, 2020, doi: 10.1109/ACCESS.2020.2980285.
+[11] 3GPP, "Study on Channel Model for Frequencies from 0.5 to 100 GHz," 3GPP TR 38.901.
