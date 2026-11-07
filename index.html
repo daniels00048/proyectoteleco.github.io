@@ -351,6 +351,13 @@ header.top nav.switch{display:none}
 section.panel p,section.panel li,.prose p,.card p,.hri li,.hri p,.word p,.decl p,.implica,.tldr,.clsum,.steps li,.take span,.q .fb2,.hero .question,.hero .sub,.notice,.dark p.muted,#bo-x{text-align:justify;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto}
 .notice.dpc{max-width:72ch;font-size:.92rem;line-height:1.6;opacity:.95}
 .refs li,.mini td,.tags span,figcaption,.eyebrow,.size,.es{text-align:left;hyphens:manual}
+
+/* ancho completo: los párrafos llenan el recuadro (sin espacio vacío a la derecha) */
+section.panel p,section.panel li,.prose,.prose p,.tldr,.clsum,.implica,.why,.decl,.hero .question,.notice.dpc,.dark p.muted,.fig figcaption{max-width:none!important}
+section.panel{padding:2.25rem clamp(1.1rem,3.5vw,3rem)}
+section.panel p,section.panel li{font-size:1.02rem;line-height:1.75}
+.hero .question{max-width:62rem!important}
+.notice.dpc{max-width:62rem!important}
 </style>
 </head>
 <body class="abet">
