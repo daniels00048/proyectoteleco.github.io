@@ -358,6 +358,14 @@ section.panel{padding:2.25rem clamp(1.1rem,3.5vw,3rem)}
 section.panel p,section.panel li{font-size:1.02rem;line-height:1.75}
 .hero .question{max-width:62rem!important}
 .notice.dpc{max-width:62rem!important}
+
+/* etapas de la estrategia: tarjetas anchas, número al lado, sin palabras partidas */
+.steps{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:.85rem!important;counter-reset:s}
+.steps li{display:grid!important;grid-template-columns:2.4rem 1fr;column-gap:.85rem;align-items:start;padding:1rem 1.15rem!important;font-size:.97rem!important;line-height:1.6!important;text-align:left!important;hyphens:manual!important;-webkit-hyphens:manual!important;border-left:4px solid #25366A}
+.steps li::before{grid-row:1/span 2;margin:0!important;width:2.2rem!important;height:2.2rem!important;font-size:.95rem!important}
+.steps li b{display:block;font-size:1.02rem;color:#25366A;margin-bottom:.2rem;line-height:1.35}
+.steps li:last-child:nth-child(odd){grid-column:1/-1}
+@media (max-width:700px){.steps{grid-template-columns:1fr!important}}
 </style>
 </head>
 <body class="abet">
